@@ -1,0 +1,258 @@
+botFlow:
+  name: zino_chat_hours_bot
+  division: New Home
+  startUpRef: "/botFlow/bots/bot[Default Bot_10]"
+  defaultLanguage: en-us
+  supportedLanguages:
+    en-us:
+      none: true
+  variables:
+    - stringVariable:
+        name: Slot.OrderNumberType
+        initialValue:
+          noValue: true
+        isInput: true
+        isOutput: true
+    - stringVariable:
+        name: Slot.QuestionType
+        initialValue:
+          noValue: true
+        isInput: true
+        isOutput: true
+  settingsActionDefaults:
+    askForIntent:
+      voiceEndOfInputTimeout:
+        lit:
+          seconds: 1
+    askForBoolean:
+      voiceEndOfInputTimeout:
+        lit:
+          seconds: 1
+    askForSlot:
+      voiceEndOfInputTimeout:
+        lit:
+          seconds: 1
+    loopAnythingElse:
+      voiceEndOfInputTimeout:
+        lit:
+          seconds: 1
+  settingsErrorHandling:
+    errorHandling:
+      exit:
+        none: true
+    enableAgentEscalation:
+      lit: true
+    errorEventHandover:
+      exp: "MakeCommunication(\n  \"Sorry, an error occurred. One moment, please, while I put you through to someone who can help.\")"
+    agentEscalationConfirmation:
+      exp: "MakeCommunication(\n  \"You want to speak to an advisor. Is that correct?\")"
+    agentEscalationHandover:
+      exp: "MakeCommunication(\n  \"One moment, please, and I will put you through to someone.\")"
+    recognitionFailureEventHandover:
+      exp: "MakeCommunication(\n  \"Sorry, I'm having trouble understanding you. One moment, please, while I put you through to someone who can help.\")"
+    recognitionFailureEventHandling:
+      exit:
+        none: true
+  settingsPrompts:
+    ensureAudioInPrompts: false
+    promptMediaToValidate:
+      - mediaType: audio
+      - mediaType: tts
+  settingsBotFlow:
+    intentSettings:
+      - intent:
+          confirmation:
+            exp: "MakeCommunication(\n  \"I think you want to Ask Question, is that correct?\")"
+          name: Ask Question
+      - intent:
+          confirmation:
+            exp: "MakeCommunication(\n  \"I think you want to Cancel order, is that correct?\")"
+          name: Cancel order
+      - intent:
+          confirmation:
+            exp: "MakeCommunication(\n  \"I think you want to Check order status, is that correct?\")"
+          name: Check order status
+  settingsUserInput:
+    enableBargeIn:
+      lit: true
+    enableAutomaticQuickReplies:
+      lit: true
+    noMatchesMax:
+      lit: 3
+    noInputsMax:
+      lit: 3
+    noInputsTimeout:
+      lit:
+        seconds: 7
+    confirmationRejectionsMax:
+      lit: 3
+    collectionLowConfidenceThreshold:
+      lit: 20
+    collectionHighConfidenceThreshold:
+      lit: 70
+    confirmationLowConfidenceThreshold:
+      lit: 40
+    noMatchApology:
+      exp: "MakeCommunication(\n  \"Sorry.\")"
+    noInputApology:
+      exp: "MakeCommunication(\n  \"Sorry, I didn't hear you.\")"
+    noToConfirmationApology:
+      exp: "MakeCommunication(\n  \"My mistake.\")"
+    confirmationNoMatchApology:
+      exp: "MakeCommunication(\n  \"Sorry, please say yes or no.\")"
+    confirmationNoInputApology:
+      exp: "MakeCommunication(\n  \"Sorry, I didn't hear you.  Please say yes or no.\")"
+  settingsKnowledge:
+    none: true
+  bots:
+    - bot:
+        name: Default Bot
+        refId: Default Bot_10
+        actions:
+          - askForSlot:
+              name: Ask for Slot
+              slot:
+                name: QuestionType
+              question:
+                exp: MakeCommunication("Ask me a question about your order")
+              customValidation:
+                noValue: true
+              confirmationMode:
+                lit: never
+              noInput:
+                exp: "MakeCommunication(\n  \"Please say or enter\", \n  \"a question\")"
+              noMatch:
+                exp: "MakeCommunication(\n  \"Please give me \", \n  \"a question\")"
+              voiceEndOfInputTimeout:
+                noValue: true
+          - askForSlot:
+              name: Ask for Slot
+              slot:
+                name: OrderNumberType
+              question:
+                exp: "MakeCommunication(\n  \"What is the\", \n  \"5 digit number for your order?\", \n  \"?\")"
+              customValidation:
+                noValue: true
+              confirmationMode:
+                lit: never
+              noInput:
+                exp: "MakeCommunication(\n  \"Please say or enter the\", \n  \"order number\")"
+              noMatch:
+                exp: "MakeCommunication(\n  \"Please give me the\", \n  \"order number\")"
+              voiceEndOfInputTimeout:
+                noValue: true
+          - communicate:
+              name: Communicate
+              communication:
+                exp: " MakeCommunication(\"Let me transfer you to an agent with your information\")\n"
+          - communicate:
+              name: Communicate
+              communication:
+                exp: "MakeCommunication(\"Your order number is: \", ToCommunication(Slot.OrderNumberType), \" and your question is: \", ToCommunication(Slot.QuestionType))"
+          - exitBotFlow:
+              name: Exit Bot Flow
+  settingsNaturalLanguageUnderstanding:
+    nluDomainVersion:
+      intents:
+        - name: Ask Question
+          entityNameReferences:
+            - QuestionType
+          utterances:
+            - segments:
+                - text: Where are my orders?
+                  entity:
+                    name: QuestionType
+            - segments:
+                - text: where are your offices located ?
+                  entity:
+                    name: QuestionType
+            - segments:
+                - text: "tell me "
+                - text: when do updates come in?
+                  entity:
+                    name: QuestionType
+            - segments:
+                - text: Who can I reach out to for help on the services?
+                  entity:
+                    name: QuestionType
+            - segments:
+                - text: What is the best software for my computer?
+                  entity:
+                    name: QuestionType
+            - segments:
+                - text: "I would like to know, "
+                - text: how can I update my software
+                  entity:
+                    name: QuestionType
+        - name: Cancel order
+          entityNameReferences:
+            - OrderNumberType
+          utterances:
+            - segments:
+                - text: "order "
+                - text: "99999"
+                  entity:
+                    name: OrderNumberType
+                - text: " doesn't not work for me anymore"
+            - segments:
+                - text: "can I cancel my order "
+                - text: "14554"
+                  entity:
+                    name: OrderNumberType
+            - segments:
+                - text: can I cancel my order
+            - segments:
+                - text: This order does not work for me anymore
+            - segments:
+                - text: I would like to cancel this order
+        - name: Check order status
+          entityNameReferences:
+            - OrderNumberType
+          utterances:
+            - segments:
+                - text: "what is the condition of my order "
+                - text: "15555"
+                  entity:
+                    name: OrderNumberType
+            - segments:
+                - text: where is my order
+            - segments:
+                - text: I would like to know the status of my order
+            - segments:
+                - text: "I would like to check the status of order "
+                - text: "18765"
+                  entity:
+                    name: OrderNumberType
+      entities:
+        - name: OrderNumberType
+          type: OrderNumber
+        - name: QuestionType
+          type: Question
+      entityTypes:
+        - mechanism:
+            items:
+              - synonyms: []
+                value: "\\b[0-9]{8}\\b"
+            restricted: true
+            type: Regex
+          name: AccountNumberType
+          description: The description of the Entity Type "AccountNumberType"
+        - mechanism:
+            items:
+              - synonyms: []
+                value: "\\b[0-9]{5}\\b"
+            restricted: true
+            type: Regex
+          name: OrderNumber
+          description: The description of the Entity Type "OrderNumber"
+        - mechanism:
+            items:
+              - synonyms: []
+                value: "\\b(how|where|what|when|who|whom|whose)\\b.*\\?"
+              - synonyms: []
+                value: "^.*\\?.*$"
+            restricted: true
+            type: Regex
+          name: Question
+          description: The description of the Entity Type "Question"
+      language: en-us

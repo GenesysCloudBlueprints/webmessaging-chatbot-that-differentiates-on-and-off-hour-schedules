@@ -1,8 +1,8 @@
 inboundShortMessage:
-  name: zino_chat_schedule_hours
+  name: chat_bot_hours_differentiator
   description: A web messaging flow that evaluates schedule and routes to a user with important customer information
   division: New Home
-  startUpRef: "/inboundShortMessage/states/state[Initial State_11]"
+  startUpRef: '/inboundShortMessage/states/state[Initial State_11]'
   defaultLanguage: en-us
   supportedLanguages:
     en-us:
@@ -36,9 +36,10 @@ inboundShortMessage:
                 schedule:
                   selectedSchedule:
                     lit:
-                      name: zino_schedule_chathours
-                  name: zino_schedule_chathours
+                      name: '{{schedule_name}}'
                   evaluationTimeZone: America/Chicago
+                  scheduleTimeZone:
+                    lit: America/Chicago
                   evaluate:
                     now: true
               outputs:
@@ -66,7 +67,7 @@ inboundShortMessage:
                         intent:
                           noValue: true
                         botFlow:
-                          zino_chat_hours_bot:
+                          hours_differentiator_webmessage_bot:
                             ver_latestPublished:
                               inputs:
                                 Slot.OrderNumberType:
@@ -81,7 +82,7 @@ inboundShortMessage:
                     - setScreenPop:
                         name: Set Screen Pop
                         screenPopScript:
-                          zino_chat_hours_script:
+                          chat_hours_script:
                             inputs:
                               Screen Pop URL:
                                 noValue: true
@@ -93,7 +94,7 @@ inboundShortMessage:
               name: Transfer to ACD
               targetQueue:
                 lit:
-                  name: zino_chat_queue
+                  name: '{{acd_queue_name}}'
               priority:
                 lit: 0
               preferredAgents:

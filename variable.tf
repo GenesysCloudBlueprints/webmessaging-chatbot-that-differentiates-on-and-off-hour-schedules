@@ -1,12 +1,16 @@
-variable "flowId" {
-  type        = string
-  description = "Flow id to associate with widget"
+variable "oauthClientId"{
+    type = string
+    description = "Genesys Cloud OAuth Client ID"
 }
 
-
-variable "scriptId" {
+variable "oauthClientSecret"{
     type = string
-    description = "Script id to associate with queue"
+    description = "Genesys Cloud OAuth Client Secret"
+}
+
+variable "awsRegion"{
+    type = string 
+    description = "AWS Region"
 }
 
 variable "divisionId"{
@@ -17,4 +21,24 @@ variable "divisionId"{
 variable "userId"{
     type = string
     description = "user associated with queue"
+}
+
+variable "prefix" {
+  type        = string
+  description = "A name that is to be used as the resource name prefix. Usually it's the project name."
+}
+
+variable "environment" {
+  type        = string
+  description = "Name of the environment, e.g., dev, test, stable, staging, uat, prod etc."
+}
+
+variable "genesysCloudScriptUrl"{
+    type       = string
+    description = "genesys cloud script url"
+}
+
+variable "genesysCloudScriptEnv"{
+     type       = string
+    description = "genesys cloud script environment"
 }

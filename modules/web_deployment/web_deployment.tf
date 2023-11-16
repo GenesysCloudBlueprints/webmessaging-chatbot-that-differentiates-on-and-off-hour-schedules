@@ -7,19 +7,20 @@ terraform {
   }
 }
 
-
-resource "genesyscloud_webdeployments_deployment" "zino_messaging_deployment" {
-  name              = "zino_messaging_deployment"
+#messenger deployment
+resource "genesyscloud_webdeployments_deployment" "messenger_deployment" {
+  name              = "${local.resource_name_prefix}_webmessage_deployment"
   status            = "Active"
   allow_all_domains = true
   configuration {
-    id      = "${genesyscloud_webdeployments_configuration.zino_message_config.id}"
+    id      = "${genesyscloud_webdeployments_configuration.messagenger_config.id}"
     version = "2"
   }
-  flow_id = "e204d4b7-1b57-487b-99f6-04f355d63810"
+  flow_id = var.flowId
 }
 
-resource "genesyscloud_webdeployments_configuration" "zino_message_config" {
+#messenger config
+resource "genesyscloud_webdeployments_configuration" "messagenger_config" {
   messenger {
     enabled = true
     file_upload {
@@ -43,7 +44,7 @@ resource "genesyscloud_webdeployments_configuration" "zino_message_config" {
     should_keep_url_fragment = false
     enabled                  = false
   }
-  name             = "zino_message_config"
+  name             = "${local.resource_name_prefix}_webmessage_config"
   status           = "Active"
   default_language = "en-us"
   languages        = ["en-us"]

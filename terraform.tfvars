@@ -1,7 +1,8 @@
-flowId = "e204d4b7-1b57-487b-99f6-04f355d63810"
-scriptId = "f350dc9e-c099-4a90-94ed-b76c5789a57f"
 divisionId = "4a7e4f4b-e734-40b6-838e-557c5eedd49a"
 userId =  "ad373d0e-a737-440c-ad35-c6c608d11fe9"
+oauthClientId = "7de3af06-c0b3-4f9b-af45-72f4a14037cc"
+oauthClientSecret = "qLh-825gtjPrIY2kcWKAkmlaSgi6Z1Ws2BAyixWbTrs"
+awsRegion = "us-east-1"
 
 
 ##Below are the parameters for generating the WebMessaging Widget

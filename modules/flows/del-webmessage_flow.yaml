@@ -1,0 +1,104 @@
+inboundShortMessage:
+  name: chat_bot_hours_differentiator
+  description: A web messaging flow that evaluates schedule and routes to a user with important customer information
+  division: New Home
+  startUpRef: "/inboundShortMessage/states/state[Initial State_11]"
+  defaultLanguage: en-us
+  supportedLanguages:
+    en-us:
+      defaultLanguageSkill:
+        noValue: true
+  settingsErrorHandling:
+    errorHandling:
+      disconnect:
+        none: true
+  states:
+    - state:
+        name: Initial State
+        refId: Initial State_11
+        variables:
+          - stringVariable:
+              name: State.OrderNumber
+              initialValue:
+                noValue: true
+              isInput: false
+              isOutput: false
+          - stringVariable:
+              name: State.Question
+              initialValue:
+                noValue: true
+              isInput: false
+              isOutput: false
+        actions:
+          - evaluateSchedule:
+              name: Evaluate Schedule
+              evaluationType:
+                schedule:
+                  selectedSchedule:
+                    lit:
+                      name: hours_differentiator_schedule
+                  name: hours_differentiator_schedule
+                  evaluationTimeZone: America/Chicago
+                  scheduleTimeZone:
+                    lit: America/Chicago
+                  evaluate:
+                    now: true
+              outputs:
+                active:
+                  actions:
+                    - transferToAcd:
+                        name: Transfer to ACD
+                        targetQueue:
+                          lit:
+                            name: chat11
+                        priority:
+                          lit: 0
+                        preferredAgents:
+                          noValue: true
+                        languageSkill:
+                          noValue: true
+                inactive:
+                  actions:
+                    - callBotFlow:
+                        name: Call Bot Flow
+                        inputText:
+                          exp: Message.Message.body
+                        exitReason:
+                          noValue: true
+                        intent:
+                          noValue: true
+                        botFlow:
+                          hours_differentiator_webmessage_bot:
+                            ver_latestPublished:
+                              inputs:
+                                Slot.OrderNumberType:
+                                  noValue: true
+                                Slot.QuestionType:
+                                  noValue: true
+                              outputs:
+                                Slot.OrderNumberType:
+                                  var: State.OrderNumber
+                                Slot.QuestionType:
+                                  var: State.Question
+                    - setScreenPop:
+                        name: Set Screen Pop
+                        screenPopScript:
+                          chat_hours_script:
+                            inputs:
+                              Screen Pop URL:
+                                lit: ""
+                              customer question:
+                                lit: no question
+                              customer order number:
+                                lit: "customer order number "
+          - transferToAcd:
+              name: Transfer to ACD
+              targetQueue:
+                lit:
+                  name: hours_differentiator_queue
+              priority:
+                lit: 0
+              preferredAgents:
+                noValue: true
+              languageSkill:
+                noValue: true

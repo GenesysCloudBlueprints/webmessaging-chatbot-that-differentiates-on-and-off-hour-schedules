@@ -97,11 +97,11 @@ resource "genesyscloud_widget_deployment" "chat_widget" {
   name                    = "${local.resource_name_prefix}_chat_widget"
 }
 
-/*Generates an html page containing the webmessaging widget*/
-# module "webmessaging_widget_page" {
-#   depends_on                             = [module.webmessaging_deploy]
-#   source                                 = "./modules/generate_webmessaging_page"
-#   genesyscloud_scripting_env             = var.genesysCloudScriptEnv
-#   genesyscloud_scripting_url             = var.genesysCloudScriptUrl
-#   genesyscloud_webmessaging_deploymentid = module.webmessaging_deploy.webmessenger_deploymentid
-# }
+# /*Generates an html page containing the webmessaging widget*/
+module "webmessaging_widget_page" {
+  depends_on                             = [module.webmessaging_deploy]
+  source                                 = "./modules/generate_webmessaging_page"
+  genesyscloud_scripting_env             = var.genesysCloudScriptEnv
+  genesyscloud_scripting_url             = var.genesysCloudScriptUrl
+  genesyscloud_webmessaging_deploymentid = module.webmessaging_deploy.deployment_id
+}

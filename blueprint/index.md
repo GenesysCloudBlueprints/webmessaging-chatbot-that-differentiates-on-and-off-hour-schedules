@@ -1,11 +1,11 @@
 ---
-title: Build a web messaging chat bot that differentiates between on-hour and off-hour chats
+title: Build a web messaging chat bot that differentiates between chats depending on whether agents are offline or not
 author: zino.onokpise
 indextype: blueprint
 icon: blueprint
 category: 4
 summary: |
-  This Genesys Cloud Developer Blueprint builds an Architect flow that evaluates a schedule, builds a chat bot and routes after-hours customer interactions to it. The chat bot stores relevant customer information and transfers the information to an agent using a script. You deploy all the components in this solution with Terraform, and the Terraform Genesys Cloud CX as Code provider.
+  This Genesys Cloud Developer Blueprint builds an Architect flow that evaluates a schedule, builds a chat bot and routes customer interactions to it when agents are offline. The chat bot stores relevant customer information and transfers the information to an agent using a script. You deploy all the components in this solution with Terraform, and the Terraform Genesys Cloud CX as Code provider.
 ---
 :::{"alert":"primary","title":"About Genesys Cloud Blueprints","autoCollapse":false} 
 Genesys Cloud blueprints were built to help you jump-start building an application or integrating with a third-party partner. 
@@ -15,7 +15,7 @@ For more information about Genesys Cloud blueprint support and practices,
 see our Genesys Cloud blueprint [FAQ](https://developer.genesys.cloud/blueprints/faq) sheet.
 :::
 
-This Genesys Cloud Developer Blueprint builds an Architect flow that evaluates a schedule, builds a chat bot and routes after-hours customer interactions to it. The chat bot stores relevant customer information and transfers the information to an agent using a script. You deploy all the components in this solution with Terraform, and the Terraform Genesys Cloud CX as Code provider.
+This Genesys Cloud Developer Blueprint builds an Architect flow that evaluates a schedule, builds a chat bot and routes customer interactions to it when agents are offline. The chat bot stores relevant customer information and transfers the information to an agent using a script. You deploy all the components in this solution with Terraform, and the Terraform Genesys Cloud CX as Code provider.
 
 ### Scenario
 
@@ -28,9 +28,9 @@ An organization wants to improve the customer's experience with product orders. 
 
 This blueprint explains how to use the following Genesys Cloud capabilities:
 
-- **Architect inbound message flow** - provides the integration and routing layer that gets the customer to the chat bot and eventually to an after-hours agent.
+- **Architect inbound message flow** - provides the integration and routing layer that routes the customer to the chat bot and eventually to an agent.
 - **Architect bot flow** - tracks key customer information through the use of slots associated with the context of the chat bot.
-- **Web chat widget** - allows developers to create and configure a JavaScript web chat widget that deploys to their organization's website where customers can interact with it.
+- **Web Messenger** - allows developers to create and configure a JavaScript web messenger snippet that deploys to their organization's website where customers can interact with it.
 
 ### Solution components
 
@@ -50,7 +50,7 @@ This blueprint explains how to use the following Genesys Cloud capabilities:
 
 ### Genesys Cloud account
 
-- A Genesys Cloud license. For more information, see [Genesys Cloud Pricing](https://www.genesys.com/pricing 'Opens the Genesys Cloud pricing page') in the Genesys Cloud website. For this project, you need at least a Genesys Cloud CX 3 license and a Genesys Dialog Engine Bot Flows product for your organization.
+- A Genesys Cloud license. For more information, see [Genesys Cloud Pricing](https://www.genesys.com/pricing 'Opens the Genesys Cloud pricing page') in the Genesys Cloud website. For this project, you need at least a Genesys Cloud CX 3 license and a Genesys Dialog Engine Bot Flow product for your organization.
 - Master Admin role. For more information, see [Roles and permissions overview](https://help.mypurecloud.com/?p=24360 'Opens the Roles and permissions overview article') in the Genesys Cloud Resource Center.
 - Archy. For more information, see [Welcome to Archy](https://developer.genesys.cloud/devapps/archy/ 'Goes to the Welcome to Archy page') in the Genesys Cloud Developer Center.
 - CX as Code. For more information, see [CX as Code](https://developer.genesys.cloud/devapps/cx-as-code/ 'Goes to the CX as Code page') in the Genesys Cloud Developer Center.
@@ -58,12 +58,12 @@ This blueprint explains how to use the following Genesys Cloud capabilities:
 ### Development tools that run in your local environment
 
 - Terraform (the latest binary). For more information, see [Download Terraform](https://www.terraform.io/downloads.html 'Goes to the Download Terraform page') on the Terraform website.
-- Archy (the latest version). Archy is Genesys Cloud's command line to deploy Genesys Cloud Architect flows. For more information, see:
+- Archy (the latest version). Archy is Genesys Cloud's command-line tool to deploy Genesys Cloud Architect flows. For more information, see:
 
   - [Archy Documentation](https://developer.genesys.cloud/devapps/archy/ 'Goes to the Welcome to Archy page')
-  - [Installing and Configuring Archy - Video](https://www.youtube.com/watch?v=fOI_vq3PnM8 'Goes to the DevDrop 8a: Installing and configuring Archy video') in YouTube
-  - [Exporting flows with Archy - Video](https://www.youtube.com/watch?v=QAmkM_agsrY 'Goes to the DevDrop 8b: Exporting flows with Archy video') in YouTube
-  - [Importing flows with Archy - Video](https://www.youtube.com/watch?v=3NwGJ9X1O0s 'Goes to the DevDrop 8c: Importing an Architect flow using Archy video') in YouTube
+  - [Installing and Configuring Archy - Video](https://www.youtube.com/watch?v=fOI_vq3PnM8 'Opens the DevDrop 8a: Installing and configuring Archy video on YouTube')
+  - [Exporting flows with Archy - Video](https://www.youtube.com/watch?v=QAmkM_agsrY 'Opens the DevDrop 8b: Exporting flows with Archy video on YouTube')
+  - [Importing flows with Archy - Video](https://www.youtube.com/watch?v=3NwGJ9X1O0s 'Opens the DevDrop 8c: Importing an Architect flow using Archy video on YouTube')
 
 ## Implementation steps
 
@@ -116,17 +116,16 @@ After the chat bot is deployed to your environment, use the Genesys Cloud Web ch
 ![Test your deployed web messenger](images/testWebMessenger.png 'Test your deployed web messenger')
 
 1. Go to the [Web chat messenger developer tool](https://developer.genesys.cloud/devapps/web-chat-messenger) in the Genesys Cloud Developer Center.
-2. From the **Deployment** list, select your web messenger deployment. In the diagram above, the sample deployment would appear as `dev-ice_webmessenge_deployment`. If you do not see your deployment, the web chat widget did not deploy correctly.
-3. Click **Start Chat**. This button initiated a chat with which may be directed to your agent (the userId provided) or a chatbot depending on the time of day, evaluated by the schedule resource created. If the chat is answered by a bot, it will ask "Ask me aquestion about your order".
-4. Respond by entering a question.
-5. When prompted for your 5-digit order number, enter a 5-digit number.
+2. From the **Deployment** list, select your web messenger deployment. The sample deployment appears as `dev-ice_webmessage_deployment`. If you do not see your deployment, Messenger did not deploy correctly.
+3. Click **Start Chat**. Genesys Cloud routes the interaction to an agent or a chat bot depending on the time of day and based on the schedule resource that Terraform created. If Genesys Cloud routes the interaction to a chat bot, the bot responds with "Ask me a question about your order".
+4. Enter your question.
+5. When prompted, enter your five-digit order number.
 
-Your agent should receive a webmessage, with the information provided to the bot in a script. If you receive this, the chat bot succesfully fetched information from the customer and routed the conversation to the agent.
+The agent receives the information you provided to the chat bot in a script. If you receive this, the chat bot succesfully fetched information from the customer and routed the conversation to the agent.
 
 ## Additional resources
 
-- [About widgets for web chat](https://help.mypurecloud.com/articles/about-widgets-for-web-chat/ "Opens the About widgets for web chat article") in the Genesys Cloud Resource Center
 - [Genesys Cloud Web messaging and messenger](https://developer.genesys.cloud/commdigital/digital/webmessaging/ "Opens the Web messaging and Messenger page")
 - [About Web messaging](https://help.mypurecloud.com/articles/about-web-messaging/ "Opens the About Web messaging article") in the Genesys Cloud Resource Center
 - [Genesys Cloud Terraform provider documentation](https://registry.terraform.io/providers/MyPureCloud/genesyscloud/latest/docs 'Goes to the Genesys Cloud provider page') in the Terraform documentation
-- [webmessaging-chatbot-that-differentiates-on-and-off-hour-schedules](https://github.com/GenesysCloudBlueprints/webmessaging-chatbot-that-differentiates-on-and-off-hour-schedules) in Github
+- [Github repository for the Build a web messaging chat bot that differentiates between chats depending on whether agents are offline or not Blueprint](https://github.com/GenesysCloudBlueprints/webmessaging-chatbot-that-differentiates-on-and-off-hour-schedules/ "Opens the Github repository for the Build a web messaging chat bot that differentiates between chats depending on whether agents are offline or not Blueprint")

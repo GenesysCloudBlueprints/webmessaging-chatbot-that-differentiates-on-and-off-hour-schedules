@@ -77,7 +77,7 @@ In the **blueprint/terraform.tfvars** file in the root folder, set the following
 
 - `divisionId` - Your Genesys Cloud division ID.
 - `awsRegion` - The AWS region (for example, `us-east-1`, `us-west-2`).
-- `environment` - This is a free-form field that combines with the `prefix` value to define the name of various Genesys Cloud artifacts. For example, if you set the value of `environment` to `test` and the value of `prefix` to `project1`, the name of your Genesys Cloud queue, Messenger deployment, configuration and script will all begin with `test-project1`.
+- `environment` - This is a free-form field that combines with the `prefix` value to define the name of various Genesys Cloud artifacts. For example, if you set the value of `environment` to `test` and the value of `prefix` to `project1`, the name of your Genesys Cloud queue, Messenger deployment, configuration and script will begin with `test-project1`.
 - `prefix` - This is a free-form field that combines with the `environment` value to define the name of various Genesys Cloud artifacts.
 - `userId` - The user ID that you want to associate with the queue that Terraform creates. The user associated with the user ID will receive the inbound messages from your customer.
 - `oauthClientId` - The Genesys Cloud client credential grant ID that CX as Code executes against.
@@ -111,11 +111,11 @@ After the `terraform apply --auto-approve` command successfully completes, you s
 
 ### Test your deployment
 
-After the chat bot is deployed to your environment, use the Genesys Cloud Web chat messenger developer tool to test it.
+After the chat bot is deployed to your environment, use the Genesys Cloud Web chat/messaging developer tool to test it.
 
 ![Test your deployed web messenger](images/testWebMessenger.png 'Test your deployed web messenger')
 
-1. Go to the [Web chat messenger developer tool](https://developer.genesys.cloud/devapps/web-chat-messenger) in the Genesys Cloud Developer Center.
+1. Go to the [Web chat/messaging developer tool](https://developer.genesys.cloud/devapps/web-chat-messenger) in the Genesys Cloud Developer Center.
 2. From the **Deployment** list, select your web messenger deployment. The sample deployment appears as `dev-ice_webmessage_deployment`. If you do not see your deployment, Messenger did not deploy correctly.
 3. Click **Start Chat**. Genesys Cloud routes the interaction to an agent or a chat bot depending on the time of day and based on the schedule resource that Terraform created. If Genesys Cloud routes the interaction to a chat bot, the bot responds with "Ask me a question about your order".
 4. Enter your question.
@@ -125,7 +125,7 @@ The agent receives the information you provided to the chat bot in a script. If 
 
 ## Additional resources
 
-- [Genesys Cloud Web messaging and messenger](https://developer.genesys.cloud/commdigital/digital/webmessaging/ "Opens the Web messaging and Messenger page")
-- [About Web messaging](https://help.mypurecloud.com/articles/about-web-messaging/ "Opens the About Web messaging article") in the Genesys Cloud Resource Center
-- [Genesys Cloud Terraform provider documentation](https://registry.terraform.io/providers/MyPureCloud/genesyscloud/latest/docs 'Goes to the Genesys Cloud provider page') in the Terraform documentation
+- [Genesys Cloud Web messaging and Messenger](https://developer.genesys.cloud/commdigital/digital/webmessaging/ "Opens the Web messaging and Messenger page in the Genesys Cloud Developer Center")
+- [About Web messaging](https://help.mypurecloud.com/articles/about-web-messaging/ "Opens the About Web messaging article in the Genesys Cloud Resource Center")
+- [Genesys Cloud Terraform provider documentation](https://registry.terraform.io/providers/MyPureCloud/genesyscloud/latest/docs 'Goes to the Genesys Cloud provider page in the Terraform documentation')
 - [Github repository for the Build a web messaging chat bot that differentiates between chats depending on whether agents are offline or not Blueprint](https://github.com/GenesysCloudBlueprints/webmessaging-chatbot-that-differentiates-on-and-off-hour-schedules/ "Opens the Github repository for the Build a web messaging chat bot that differentiates between chats depending on whether agents are offline or not Blueprint")

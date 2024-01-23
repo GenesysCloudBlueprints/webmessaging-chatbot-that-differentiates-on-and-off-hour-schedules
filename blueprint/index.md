@@ -121,7 +121,7 @@ After the chat bot is deployed to your environment, use the Genesys Cloud Web ch
 4. Enter your question.
 5. When prompted, enter your five-digit order number.
 
-The agent receives the information you provided to the chat bot in a script. If you receive this script, the chat bot successfully fetched information from the customer and routed the conversation to the agent.
+The agent receives the information that you provided to the chat bot in a script. If you receive this information, the chat bot successfully fetched it from the customer and routed the conversation to the agent.
 
 ## Additional resources
 

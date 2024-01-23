@@ -15,11 +15,11 @@ For more information about Genesys Cloud blueprint support and practices,
 see our Genesys Cloud blueprint [FAQ](https://developer.genesys.cloud/blueprints/faq) sheet.
 :::
 
-This Genesys Cloud Developer Blueprint builds an Architect flow that evaluates a schedule, builds a chat bot and routes customer interactions to it when agents are offline. The chat bot stores relevant customer information and transfers the information to an agent using a script. You deploy all the components in this solution with Terraform, and the Terraform Genesys Cloud CX as Code provider.
+This Genesys Cloud Developer Blueprint builds an Architect flow that evaluates a schedule, builds a chat bot and routes customer interactions to it when agents are offline. The chat bot stores relevant customer information and transfers the information to an agent using a script. You deploy all the components in this solution with Terraform, and the Genesys Cloud Terraform provider CX as Code.
 
 ### Scenario
 
-An organization wants to improve the customer's experience with product orders. The organization provides a chat bot that the customer can reach out to when agents are out of the office. The chat bot must be able to:
+An organization wants to improve the customer's experience with product orders. The organization provides a chat bot that the customer can reach out to when agents are out of office. The chat bot must be able to:
 
 - Retrieve any question or order request that the customer might have.
 - Transfer the retrieved information to an agent after the bot has processed the customer's request.
@@ -73,7 +73,7 @@ Clone the [webmessaging-chatbot-that-differentiates-on-and-off-hour-schedules](h
 
 ### Configure your Terraform build
 
-In the **blueprint/terraform.tfvars** file in the root folder, set the following values, which are specific to your AWS region and Genesys Cloud organization:
+In the `blueprint/terraform.tfvars` file in the root folder, set the following values, which are specific to your AWS region and Genesys Cloud organization:
 
 - `divisionId` - Your Genesys Cloud division ID.
 - `awsRegion` - The AWS region (for example, `us-east-1`, `us-west-2`).
@@ -83,7 +83,7 @@ In the **blueprint/terraform.tfvars** file in the root folder, set the following
 - `oauthClientId` - The Genesys Cloud client credential grant ID that CX as Code executes against.
 - `oauthClientSecret` - The Genesys Cloud client credential secret that CX as Code executes against.
 
-The following is an example of the **terraform.tfvars** file:
+The following is an example of the `terraform.tfvars` file:
 
 ```
 divisionId = "4a7e4f4b-e734-40b6-838e-557c5eedd49a"
@@ -96,10 +96,10 @@ prefix                 = "ice"
 
 You are now ready to run this blueprint solution for your organization.
 
-1. Change to the **blueprints/terraform** folder.
+1. Change to the `blueprints/terraform` folder.
 2. Issue the following commands:
 
-- `terraform plan` - This executes a trial run against your Genesys Cloud organization and shows you a list of all the Genesys Cloud resources it creates. Review this list and make sure you are comfortable with the plan before you continue to the second step.
+- `terraform plan` - This command executes a trial run against your Genesys Cloud organization and shows you a list of all the Genesys Cloud resources it creates. Review this list and make sure that you agree with the plan before you continue to the second step.
 
 - `terraform apply --auto-approve` - This command creates and deploys the necessary objects in your Genesys Cloud account. The `--auto-approve` flag completes the required approval step before the command creates the objects.
 
@@ -121,7 +121,7 @@ After the chat bot is deployed to your environment, use the Genesys Cloud Web ch
 4. Enter your question.
 5. When prompted, enter your five-digit order number.
 
-The agent receives the information you provided to the chat bot in a script. If you receive this, the chat bot succesfully fetched information from the customer and routed the conversation to the agent.
+The agent receives the information you provided to the chat bot in a script. If you receive this script, the chat bot successfully fetched information from the customer and routed the conversation to the agent.
 
 ## Additional resources
 

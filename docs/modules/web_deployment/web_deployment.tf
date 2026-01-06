@@ -41,7 +41,6 @@ resource "genesyscloud_webdeployments_configuration" "messagenger_config" {
     enabled             = false
   }
   journey_events {
-    should_keep_url_fragment = false
     enabled                  = false
   }
   name             = "${local.resource_name_prefix}_webmessage_config"

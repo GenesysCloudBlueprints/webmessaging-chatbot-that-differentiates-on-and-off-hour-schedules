@@ -41,7 +41,6 @@ resource "genesyscloud_architect_schedules" "schedule" {
 
 
 resource "genesyscloud_script" "script" {
-  file_content_hash = "${filesha256("scripts/script-f350dc9e-c099-4a90-94ed-b76c5789a57f.json")}"
   filepath          = "scripts/script-f350dc9e-c099-4a90-94ed-b76c5789a57f.json"
   script_name       = "${local.resource_name_prefix}_webmessaging_script"
 }
@@ -135,13 +134,8 @@ resource "genesyscloud_routing_queue" "off_hours_webmessage_queue" {
     service_level_percentage  = 0.8
   }
 }
-resource "genesyscloud_widget_deployment" "chat_widget" {
-  disabled                = false
-  flow_id                 = module.webmessaging_flow.flow_id #webmessage flowID
-  client_type             = "v2"
-  authentication_required = false
-  name                    = "${local.resource_name_prefix}_chat_widget"
-}
+# Note: genesyscloud_widget_deployment is not supported in provider v1.73.0+
+# Web messaging deployment is handled by the webmessaging_deploy module
 
 # /*Generates an html page containing the webmessaging widget*/
 module "webmessaging_widget_page" {
